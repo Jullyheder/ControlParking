@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "axios": "^0.21.1",
+    "jquery": "^3.6.0",
+    "react-input-mask": "^2.0.4",
+    "react-intl-currency-input": "^0.2.6"
+  }
+}
