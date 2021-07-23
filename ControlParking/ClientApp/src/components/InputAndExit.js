@@ -1,6 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import InputMask from "react-input-mask";
+import { Button, Modal } from 'react-bootstrap';
 
 function InputAndExit() {
     const [VehicleRecords, setVehicleRecords] = useState([]);
@@ -9,6 +10,8 @@ function InputAndExit() {
     const [Type, setType] = useState(1);
     const [Plate, setPlate] = useState('');
     const [Alert, setAlert] = useState('');
+    const [show, setShow] = useState(false);
+    const [stay, setStay] = useState(0);
 
     async function RegisterVehicleRecords(event) {
         event.preventDefault();
@@ -46,7 +49,7 @@ function InputAndExit() {
 
     async function updateVehicle(id) {
         await api.put('vehiclerecords/' + id)
-            .then((response) => { alert('Valor Total da estadia: ' + response.data.toLocaleString('pt-br', { minimumFractionDigits: 2 })); })
+            .then((response) => { setStay(response.data.toLocaleString('pt-br', { minimumFractionDigits: 2 })); setShow(true); })
             .catch((err) => {
                 console.log(err);
             });
@@ -93,7 +96,19 @@ function InputAndExit() {
                         <div class="alert alert-danger" role="alert">
                             {Alert}
                         </div>
-                        : ''}
+                    : ''}
+                    <Modal
+                        show={show}
+                        onHide={() => setShow(false)}
+                        dialogClassName="modal-90w"
+                        aria-labelledby="example-custom-modal-styling-title"
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title id="example-custom-modal-styling-title">
+                                Valor total da estadia: R${stay}
+                            </Modal.Title>
+                        </Modal.Header>
+                    </Modal>
                 </header>
                 <main>
                     <div>
